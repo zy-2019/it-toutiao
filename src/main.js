@@ -16,7 +16,7 @@ Vue.use(ElementUI)
 
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 
-Vue.prototype.$http = axios
+Vue.prototype.$axios = axios
 
 new Vue({
   router,

@@ -8,9 +8,9 @@
       <!-- 这里放一个表单 -->
       <el-form :model='loginForm' :rules="loginRulus" ref="test">
 <!-- --------------------------------------------------------------------- -->
-        <el-form-item prop="phone">
+        <el-form-item prop="mobile">
           <!-- 这是一个表单域 -->
-          <el-input  placeholder="请您输入手机号" v-model="loginForm.phone"></el-input>
+          <el-input  placeholder="请您输入手机号" v-model="loginForm.mobile"></el-input>
         </el-form-item>
 <!-- ---------------------------------------------------------------------- -->
         <el-form-item prop="code">
@@ -25,6 +25,7 @@
         <el-form-item>
           <el-button type="primary" @click="login" style="width:100%">登录</el-button>
         </el-form-item>
+<!-- ----------------------------------------------------------------------- -->
       </el-form>
     </el-card>
   </div>
@@ -36,12 +37,12 @@ export default {
   data () {
     return {
       loginForm: {
-        phone: '',
+        mobile: '',
         code: '',
         check: false
       },
       loginRulus: {
-        phone: [{ required: true, message: '请输入您的手机号' },
+        mobile: [{ required: true, message: '请输入您的手机号' },
           { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号' }],
         code: [{ required: true, message: '请输入您的验证码' },
           { pattern: /^\d{6}$/, message: '验证码输入有误' }],
@@ -59,9 +60,21 @@ export default {
   // 最后是要手动校验
   methods: {
     login () {
-      this.$refs.test.validate(function (isOk) {
+      this.$refs.test.validate((isOk) => {
         if (isOk) {
-          // console.log('校验成功，可以发送请求')
+          this.$axios({
+            url: '/authorizations', // 请求地址 axios没有指定类型的话默认是走get路线的
+            method: 'post',
+            data: this.loginForm
+          }).then(res => {
+            window.localStorage.setItem('user-token', res.data.data.token)
+            this.$router.push('/home')
+          }).catch(() => {
+            this.$message({
+              type: 'warning',
+              message: '手机号或者验证码有误'
+            })
+          })
         }
       })
     }
