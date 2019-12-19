@@ -1,34 +1,37 @@
 <template>
-    <div class="login">
-        <el-card class="login-card">
-            <div class="login-title">
-                <img src="../../assets/img/logo_index.png" alt="">
-            </div>
+  <div class="login">
+    <el-card class="box-card">
+      <div class="title">
+        <img src="../../assets/img/logo_index.png" alt="">
+      </div>
 
-            <el-form :model="loginForm" :rules='loginRules' ref='loginForm'>
-                <el-form-item prop='phone'>
-                    <el-input placeholder='请您输入手机号' v-model="loginForm.phone" ></el-input>
-                </el-form-item>
-
-                <el-form-item prop='code'>
-                    <el-input style="width:60%"  placeholder='请输入验证码' v-model="loginForm.code"></el-input>
-                    <el-button type="primary" style="float:right" >发送验证码</el-button>
-                </el-form-item>
-
-                <el-form-item prop='check'>
-                    <el-checkbox v-model="loginForm.check" >我已阅读并同意用户协议和隐私条款</el-checkbox>
-                </el-form-item>
-
-                <el-from-item>
-                    <el-button type='primary' style="width:100%" @click="login">登录</el-button>
-                </el-from-item>
-            </el-form>
-        </el-card>
-    </div>
+      <!-- 这里放一个表单 -->
+      <el-form :model='loginForm' :rules="loginRulus" ref="test">
+<!-- --------------------------------------------------------------------- -->
+        <el-form-item prop="phone">
+          <!-- 这是一个表单域 -->
+          <el-input  placeholder="请您输入手机号" v-model="loginForm.phone"></el-input>
+        </el-form-item>
+<!-- ---------------------------------------------------------------------- -->
+        <el-form-item prop="code">
+          <el-input style="width:60%" placeholder="请您输入验证码" v-model="loginForm.code"></el-input>
+          <el-button type="primary" style="float:right">发送验证码</el-button>
+        </el-form-item>
+<!-- ---------------------------------------------------------------------- -->
+        <el-form-item prop="check">
+          <el-checkbox v-model="loginForm.check">不选中不能进行下一步啊</el-checkbox>
+        </el-form-item>
+<!-- ---------------------------------------------------------------------- -->
+        <el-form-item>
+          <el-button type="primary" @click="login" style="width:100%">登录</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+  </div>
 </template>
 
 <script>
-// import { log } from 'util'
+
 export default {
   data () {
     return {
@@ -37,54 +40,53 @@ export default {
         code: '',
         check: false
       },
-      loginRules: {
-        //   验证规则对象
-        phone: [{ required: true, message: '请您输入手机号' },
-          { pattern: /^1[3456789]\d{9}$/, message: '请您输入正确的手机号' }],
-
-        code: [{ required: true, message: '请您输入验证码' },
-          { pattern: /^\d{6}$/, message: '验证码为六位数' }],
-
-        check: [{ validator: function (rule, value, callback) {
+      loginRulus: {
+        phone: [{ required: true, message: '请输入您的手机号' },
+          { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号' }],
+        code: [{ required: true, message: '请输入您的验证码' },
+          { pattern: /^\d{6}$/, message: '验证码输入有误' }],
+        check: [{ validator: function (rulue, value, callback) {
           if (value) {
             callback()
           } else {
-            callback(new Error('不勾选有错误信息哦'))
+            callback(new Error('必须要选中哦'))
           }
         } }]
-
       }
+
     }
   },
+  // 最后是要手动校验
   methods: {
     login () {
-      this.$refs.loginForm.validate(function (isOK) {
-        if (isOK) {
-          console.log('通过,可以调用接口')
+      this.$refs.test.validate(function (isOk) {
+        if (isOk) {
+          // console.log('校验成功，可以发送请求')
         }
       })
     }
   }
 }
+
 </script>
 
 <style lang='less' scoped>
-    .login {
-        background-image: url('../../assets/img/login_bg.jpg');
-        height: 100vh;
-        background-size: cover;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .login-card{
-            width: 400px;
-            .login-title{
-                text-align: center;
-                margin-bottom: 30px;
-                img {
-                    height: 45%;
-                }
-            }
+  .login{
+    background-image: url('../../assets/img/login_bg.jpg');
+    height: 100vh;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .box-card{
+        width: 450px;
+        .title{
+          text-align: center;
+          margin-bottom: 30px;
+          img{
+            height: 50px;
+          }
         }
     }
+  }
 </style>
