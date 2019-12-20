@@ -13,9 +13,11 @@
                 <layoutHeader></layoutHeader>
             </el-header>
             <el-main>
+                <!-- 中间主要页面区域 -->
                 <!-- 二级路由容器 -->
-                <el-view></el-view>
-                主要区域
+                <el-view>
+                    <mainBody></mainBody>
+                </el-view>
             </el-main>
         </el-container>
 <!-- --------------------------------------------------------------- -->
