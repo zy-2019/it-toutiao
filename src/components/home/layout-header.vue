@@ -9,15 +9,15 @@
 
             <el-col :span="12" class="right">
                 <el-row type="flex" justify="end" align="middle">
-                    <img :src="!userInfo.photo ? userInfo.photo : defaultImg" alt="">
+                    <img :src="userInfo.photo ? userInfo.photo : defaultImg" alt="">
 
                     <!-- 下拉菜单组件 -->
-                    <el-dropdown>
+                    <el-dropdown @command="checkMenu">
                         <span class="el-dropdown-link">{{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i></span>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>个人信息</el-dropdown-item>
-                            <el-dropdown-item>git地址</el-dropdown-item>
-                            <el-dropdown-item >退出</el-dropdown-item>
+                            <el-dropdown-item command='info'>个人信息</el-dropdown-item>
+                            <el-dropdown-item command='git'>git地址</el-dropdown-item>
+                            <el-dropdown-item command='logout'>退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </el-row>
@@ -43,6 +43,19 @@ export default {
     }).then(res => {
       this.userInfo = res.data.data
     })
+  },
+  methods: {
+    checkMenu (command) {
+    //   this.$message('触发了' + command)
+      if (command === 'info') {
+
+      } else if (command === 'git') {
+        window.location.href = 'http://www.baidu.com'
+      } else {
+        window.localStorage.removeItem('user-token') // 删除令牌
+        this.$router.push('/login') // 跳转登录页
+      }
+    }
   }
 }
 </script>
