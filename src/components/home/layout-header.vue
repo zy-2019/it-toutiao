@@ -9,15 +9,15 @@
 
             <el-col :span="12" class="right">
                 <el-row type="flex" justify="end" align="middle">
-                    <img src="../../assets/img/header.png" alt="">
+                    <img :src="!userInfo.photo ? userInfo.photo : defaultImg" alt="">
 
                     <!-- 下拉菜单组件 -->
                     <el-dropdown>
-                        <span class="el-dropdown-link">饿了么<i class="el-icon-arrow-down el-icon--right"></i></span>
+                        <span class="el-dropdown-link">{{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i></span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item>个人信息</el-dropdown-item>
                             <el-dropdown-item>git地址</el-dropdown-item>
-                            <el-dropdown-item>退出</el-dropdown-item>
+                            <el-dropdown-item >退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </el-row>
@@ -27,7 +27,23 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      userInfo: {}, // 定义一个用户对象用于接收data传来的数据
+      defaultImg: require('../../assets/img/header.png')
+    }
+  },
+  created () {
+    let token = localStorage.getItem('user-token')
+    this.$axios({
+      url: '/user/profile',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => {
+      this.userInfo = res.data.data
+    })
+  }
 }
 </script>
 
