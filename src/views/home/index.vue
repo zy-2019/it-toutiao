@@ -21,13 +21,16 @@
 </template>
 
 <script>
-import layoutAside from '../../components/home/layout-aside'
-import layoutHeader from '../../components/home/layout-header'
+
+// 已经全局注册所以不要引入了
+
+// import layoutAside from '../../components/home/layout-aside'
+// import layoutHeader from '../../components/home/layout-header'
 export default {
-  components: {
-    layoutAside,
-    layoutHeader
-  }
+//   components: {
+//     layoutAside,
+//     layoutHeader
+//   }
 }
 </script>
 
