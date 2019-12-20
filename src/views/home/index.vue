@@ -13,6 +13,8 @@
                 <layoutHeader></layoutHeader>
             </el-header>
             <el-main>
+                <!-- 二级路由容器 -->
+                <el-view></el-view>
                 主要区域
             </el-main>
         </el-container>
