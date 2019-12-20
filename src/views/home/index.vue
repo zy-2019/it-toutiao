@@ -9,7 +9,9 @@
 <!-- -------------------------------------------------------------- -->
         <el-container>
 
-            <el-header>头部区域</el-header>
+            <el-header>
+                <layoutHeader></layoutHeader>
+            </el-header>
             <el-main>
                 主要区域
             </el-main>
@@ -20,9 +22,11 @@
 
 <script>
 import layoutAside from '../../components/home/layout-aside'
+import layoutHeader from '../../components/home/layout-header'
 export default {
   components: {
-    layoutAside
+    layoutAside,
+    layoutHeader
   }
 }
 </script>
