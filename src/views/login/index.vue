@@ -33,6 +33,8 @@
 
 <script>
 
+// import router from '../../router'
+
 export default {
   data () {
     return {
@@ -63,7 +65,7 @@ export default {
       this.$refs.test.validate((isOk) => {
         if (isOk) {
           this.$axios({
-            url: '/authorizations', // 请求地址 axios没有指定类型的话默认是走get路线的
+            url: '/authorizations', // 请求地址 如果axios没有指定类型的话默认是走get路线的
             method: 'post',
             data: this.loginForm
           }).then(res => {

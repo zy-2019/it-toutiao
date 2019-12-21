@@ -21,7 +21,6 @@ const routes = [{
   children: [{
     path: '',
     component: HomeTwo
-
   }]
 
 },

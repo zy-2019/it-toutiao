@@ -34,12 +34,12 @@ export default {
     }
   },
   created () {
-    let token = localStorage.getItem('user-token')
+    // let token = localStorage.getItem('user-token')  //已经统一处理请求在此处不需要定义了
     this.$axios({
-      url: '/user/profile',
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      url: '/user/profile'
+      // headers: {
+      //   Authorization: `Bearer ${token}`
+      // }
     }).then(res => {
       this.userInfo = res.data.data
     })
