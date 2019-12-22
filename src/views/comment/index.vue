@@ -4,7 +4,7 @@
         <bread-crumb slot="header">
             <template slot="title">评论管理</template>
         </bread-crumb>
-        <el-table :data = list>
+        <el-table :data = list v-loading='loading'>
             <el-table-column prop="title" width="600" label="标题"></el-table-column>
             <el-table-column :formatter="formatterBoolean" prop="comment_status" label="评论状态"></el-table-column>
             <el-table-column prop="total_comment_count" label="总评论数"></el-table-column>
@@ -38,6 +38,7 @@ export default {
     return {
       list: [], // 接收数据
 
+      loading: false,
       //   page对象专门去存放分页数据信息
       page: {
         total: 0, // 总页数是动态获取的       ======>要从get方法参数里面获取总页数的  别傻等啦？？？？
@@ -55,12 +56,14 @@ export default {
       this.getComment() // 刷新页面数据
     },
     getComment () {
+      this.loading = true // 打开进度条
       this.$axios({
         url: '/articles',
         params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then(res => {
         this.list = res.data.results
         this.page.total = res.data.total_count
+        this.loading = false // 数据请求回来进度条
       })
     },
     // 定义一个格式化的函数  用于处理布尔值
