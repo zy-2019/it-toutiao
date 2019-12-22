@@ -4,7 +4,7 @@
 
             <el-col :span="12" class="left">
                 <i class="el-icon-s-fold" ></i>
-                <span>江苏传智播客教育科技股份有限公司</span>
+                <span>内蒙古浪滔滔教育科技股份有限公司</span>
             </el-col>
 
             <el-col :span="12" class="right">
