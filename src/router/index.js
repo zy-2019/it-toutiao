@@ -21,6 +21,9 @@ const routes = [{
   children: [{
     path: '',
     component: HomeTwo
+  }, {
+    path: '/home/comment', // 完整的写法
+    component: () => import('../views/comment') // 按需加载
   }]
 
 },

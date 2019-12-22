@@ -2,7 +2,7 @@
     <!-- 外层容器 -->
     <el-container>
 <!-- -------------------------------------------------------------- -->
-        <el-aside style="height:100vh; width:230px; background-color:#353b4e" >
+        <el-aside style="min-height:100vh; width:230px; background-color:#353b4e" >
             <!-- 侧边栏容器 -->
             <layoutAside></layoutAside>
         </el-aside>
@@ -15,9 +15,7 @@
             <el-main>
                 <!-- 中间主要页面区域 -->
                 <!-- 二级路由容器 -->
-                <el-view>
-                    <mainBody></mainBody>
-                </el-view>
+                  <router-view></router-view>
             </el-main>
         </el-container>
 <!-- --------------------------------------------------------------- -->
