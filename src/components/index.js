@@ -8,6 +8,6 @@ export default {
     Vue.component('layoutAside', layoutAside) // 注册一个全局组件
     Vue.component('layoutHeader', layoutHeader)
     // Vue.component('mainBody', mainBody)
-    Vue.component('breadCrumb', breadCrumb)
+    Vue.component('bread-crumb', breadCrumb)
   }
 }
