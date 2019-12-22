@@ -21,6 +21,14 @@
             </el-table-column>
         </el-table>
 
+        <!-- 底部定义的评论分页组件                -->
+        <el-row type="flex" justify="center" style="height:80px" align="middle">
+            <el-pagination  background
+  layout="prev, pager, next"
+  :total="page.total" :page-size="page.pageSize"  :current-page="page.currentPage"  @current-change='changePage'>
+        </el-pagination>
+        </el-row>
+
     </el-card>
 </template>
 
@@ -28,16 +36,31 @@
 export default {
   data () {
     return {
-      list: [] // 接收数据
+      list: [], // 接收数据
+
+      //   page对象专门去存放分页数据信息
+      page: {
+        total: 0, // 总页数是动态获取的       ======>要从get方法参数里面获取总页数的  别傻等啦？？？？
+        pageSize: 10, // 每页显示条目个数
+        currentPage: 1 // 默认页码是1
+      }
     }
   },
   methods: {
+
+    // 点击页码切换数据使用的方法
+    changePage (newPage) {
+      this.page.currentPage = newPage // 把最新页码赋值给当前页码
+
+      this.getComment() // 刷新页面数据
+    },
     getComment () {
       this.$axios({
         url: '/articles',
-        params: { response_type: 'comment' }
+        params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then(res => {
         this.list = res.data.results
+        this.page.total = res.data.total_count
       })
     },
     // 定义一个格式化的函数  用于处理布尔值
