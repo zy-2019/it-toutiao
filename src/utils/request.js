@@ -5,6 +5,8 @@
 import axios from 'axios'
 import router from '../router'
 import { Message } from 'element-ui'
+
+import JSONbig from 'json-bigint' // 引入第三方的包
 // 配置公共地址
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 
@@ -16,6 +18,11 @@ axios.interceptors.request.use(function (config) {
 
   return config
 })
+
+// 响应拦截器之前进行大数字处理
+axios.defaults.transformResponse = [function (data) {
+  return JSONbig.parse(data)
+}]
 
 // 响应拦截器 在进入then之前要判断
 axios.interceptors.response.use(function (response) {
@@ -45,6 +52,10 @@ function (error) {
       break
   }
   Message({ type: 'warning', message }) // 提示信息
+
+  // 要对错误执行函数进行处理 要不然会继续到then里面
+
+  return Promise.reject(error)
 })
 
 export default axios

@@ -20,6 +20,7 @@
 
             </el-table-column>
         </el-table>
+
     </el-card>
 </template>
 
@@ -51,11 +52,10 @@ export default {
         this.$axios({
           url: '/comments/status',
           method: 'put',
-          params: { article_id: row.id },
+          params: { article_id: row.id.toString() },
           data: { allow_comment: !row.comment_status } // 和当前的状态是相反的
         }).then(res => {
           // 到then这里表示执行成功
-
           this.getComment() // 重新拉取请求数据
         })
       })
