@@ -69,13 +69,10 @@ export default {
             method: 'post',
             data: this.loginForm
           }).then(res => {
-            window.localStorage.setItem('user-token', res.data.data.token)
+            window.localStorage.setItem('user-token', res.data.token)
             this.$router.push('/home')
-          }).catch(() => {
-            this.$message({
-              type: 'warning',
-              message: '手机号或者验证码有误'
-            })
+
+            // 在进入catch之前已经对状态码做出相应的处理了  所以在这儿就不需要在catch里判断了
           })
         }
       })
