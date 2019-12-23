@@ -1,13 +1,21 @@
 <template>
-    <el-card>
+    <el-card v-loading='loading'>
         <bread-crumb slot="header">
             <template slot="title">
                 素材管理
             </template>
         </bread-crumb>
+
+        <!-- 上传图片组件 -->
+        <el-row type="flex" justify="end">
+          <el-upload action="" :http-request="uplaodImg" :show-file-list="false">
+            <el-button type="primary" size='small'>点击上传</el-button>
+          </el-upload>
+        </el-row>
+
         <!-- 标签页 -->
         <!-- 单词别再写错啦我是真的怕啦 -->
-        <el-tabs v-model="activeName" @tab-click='changeTab' v-loading='loading'>
+        <el-tabs v-model="activeName" @tab-click='changeTab'>
             <!-- 生成页面结构 -->
             <el-tab-pane label="全部图片" name="all">
                 <!-- {{list}} 根据除传回的id进行操作 -->
@@ -62,6 +70,25 @@ export default {
     }
   },
   methods: {
+
+    // 上传图片的方法
+    uplaodImg (params) {
+      // alert(1)
+      this.loading = true //  上传是打开 loading加载
+      let data = new FormData()
+      data.append('image', params.file) // 文件加入到参数中
+
+      // 发送请求
+      this.$axios({
+        url: '/user/images',
+        method: 'post',
+        data
+      }).then(res => {
+        this.loading = false // 上传成功后关闭loading
+
+        this.getMaterial() // 直接调用拉取数据的方法
+      })
+    },
     // 切换页签的方法
     changeTab () {
       this.page.currentPage = 1 // 当点击切换页签的时候回到第一页 因为他两共用的一个list数据 例如（在全部的第二页 点击收藏的时候应该从收藏的第一页开始）而不是第二页
