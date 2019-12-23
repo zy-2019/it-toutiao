@@ -24,8 +24,9 @@
                     <el-card class="img-card" v-for='item in list' :key="item.id">
                         <img :src="item.url" alt="">
                         <el-row class="icon" type="flex" align="middle" justify="space-around">
-                            <i class="el-icon-star-on"></i>
-                            <i class="el-icon-delete-solid"></i>
+                            <!-- 根据当前是否收藏的状态来决定是否给字体颜色 -->
+                            <i class="el-icon-star-on" @click="coolectOrcancel(item)" :style="{ color : item.is_collected ? 'red' : '#000'}"></i>
+                            <i class="el-icon-delete-solid" @click="deleteImg(item.id)"></i>
                         </el-row>
                     </el-card>
                 </div>
@@ -71,11 +72,39 @@ export default {
   },
   methods: {
 
+    // 点击取消收藏或收藏图片
+    coolectOrcancel (item) {
+      // 获取当前状态 判断item.is_collected true or false ?
+      this.$axios({
+        url: `/user/images/${item.id}`,
+        method: 'put',
+        data: {
+          collect: !item.is_collected // 取反  因为收藏和取消收藏是逆着的
+        }
+      }).then(res => {
+        this.getMaterial() // 重新请求页面的数据
+      })
+    },
+
+    // 删除当前点击图片
+    deleteImg (id) {
+      this.$confirm('您确定要删除吗').then(res => {
+        this.$axios({
+          url: `/user/images/${id}`,
+          method: 'delete'
+        }).then(res => {
+          this.getMaterial() // 重新请求页面数据
+        })
+      })
+    },
+
     // 上传图片的方法
     uplaodImg (params) {
       // alert(1)
       this.loading = true //  上传是打开 loading加载
+
       let data = new FormData()
+
       data.append('image', params.file) // 文件加入到参数中
 
       // 发送请求
@@ -150,6 +179,9 @@ export default {
                 bottom: 0;
                 height: 30px;
                 background-color: skyblue;
+                i {
+                  cursor: pointer
+                }
             }
         }
     }

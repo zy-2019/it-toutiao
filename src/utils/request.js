@@ -21,7 +21,7 @@ axios.interceptors.request.use(function (config) {
 
 // 响应拦截器之前进行大数字处理
 axios.defaults.transformResponse = [function (data) {
-  return JSONbig.parse(data)
+  return data ? JSONbig.parse(data) : {}
 }]
 
 // 响应拦截器 在进入then之前要判断
