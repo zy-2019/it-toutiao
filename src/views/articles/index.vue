@@ -31,11 +31,31 @@
             </el-form-item>
 <!-- ------------------------------------------------------------------------- -->
             <el-form-item label="时间选择:">
-
                 <!-- 日期选择器  日期范围 -->
                 <el-date-picker v-model="searchForm.dateRange"   type="daterange" ></el-date-picker>
             </el-form-item>
         </el-form>
+<!-- --------------------------------------------------------------------------- -->
+        <!-- 主要文章显示页面 -->
+        <el-row type="flex" class="head" align="middle">
+            <span>共找到1000条内容</span>
+        </el-row>
+<!-- ------------------------------------------------------------------------------ -->
+        <div class="article-item" >
+            <div class="left">
+                <img src="../../assets/img/404.png" alt="">
+                <div class="info">
+                    <span>标题</span>
+                    <el-tag class="tag" type="success">标签一</el-tag>
+                    <span class="date">2019-12-24 15:07:01</span>
+                </div>
+            </div>
+<!-- ---------------------------------------------------------------------------- -->
+            <div class="right">
+                <span><i class="el-icon-edit">修改</i></span>
+                <span><i class="el-icon-delete-solid">删除</i></span>
+            </div>
+        </div>
     </el-card>
 </template>
 
@@ -69,6 +89,41 @@ export default {
 }
 </script>
 
-<style>
+<style lang='less' scroped>
 
+    .head {
+        border-bottom: 1px dashed #ccc;
+        height: 50px;
+        margin-bottom: 30px;
+    }
+    .article-item {
+        display: flex;
+        justify-content: space-between;
+        .left{
+            display: flex;
+            // flex-direction: column;
+            img{
+                width: 200px;
+                height: 150px;
+                border-radius: 5%;
+            }
+            .info {
+                margin-left: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                .tag{
+                    text-align: center;
+                    width: 40%;
+                }
+            }
+        }
+        .right {
+            span {
+                margin-left: 10px;
+                font-size: 12px;
+                cursor: pointer;
+            }
+        }
+    }
 </style>
