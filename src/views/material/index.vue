@@ -42,7 +42,7 @@
             </el-tab-pane>
         </el-tabs>
 
-        <!-- 这里是公共分页组件     每次切换总页数是不一样的  所以才不影响 -->
+        <!-- 这里是公共分页组件     因为每次切换总页数是不一样的  所以才不影响 -->
 
         <el-row type="flex" justify="center" style="height:80px" align="middle">
             <el-pagination  background
@@ -100,6 +100,8 @@ export default {
 
     // 上传图片的方法
     uplaodImg (params) {
+      console.log(params) // 看下传过去的参数是什么?????????????????????????
+
       // alert(1)
       this.loading = true //  上传是打开 loading加载
 
@@ -125,7 +127,7 @@ export default {
       this.getMaterial() // 调用数据方法
     },
     // 页码切换数据
-    changePage (newPage) { // 点击页码切换数据 根据element-ui规则   返回的参数是当前页
+    changePage (newPage) { // 点击页码切换数据  根据element-ui规则  返回的参数是当前页
       this.page.currentPage = newPage
       this.getMaterial() // 调用方法 刷新页面数据
     },

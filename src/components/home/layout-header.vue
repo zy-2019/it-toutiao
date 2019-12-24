@@ -4,7 +4,7 @@
 
             <el-col :span="12" class="left">
                 <i class="el-icon-s-fold" ></i>
-                <span>内蒙古浪滔滔教育科技股份有限公司</span>
+                <span>内蒙古<strong style="color:red; font-size:25px"><em>浪滔滔</em></strong>教育科技股份有限公司</span>
             </el-col>
 
             <el-col :span="12" class="right">
@@ -70,6 +70,7 @@ export default {
                 font-size: 15px;
                 margin-left: 5px;
                 color: #2c3e50;
+                background-color: yellow
             }
         }
         .right{

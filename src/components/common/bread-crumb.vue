@@ -1,5 +1,5 @@
 <template>
-<!-- 封装一个面包屑组件 -->
+<!-- 封装一个面包屑组件   在新的页面放到 放到el-card里直接用就行 -->
 <el-breadcrumb separator=">">
 
     <el-breadcrumb-item to='/home'>首页</el-breadcrumb-item>

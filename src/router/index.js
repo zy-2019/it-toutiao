@@ -22,11 +22,14 @@ const routes = [{
     path: '',
     component: HomeTwo
   }, {
-    path: '/home/comment', // 完整的写法
+    path: '/home/comment', //  评论列表完整的写法
     component: () => import('../views/comment') // 按需加载
   }, {
-    path: '/home/material', // 完整的写法
+    path: '/home/material', // 素材列表完整的写法
     component: () => import('../views/material') // 按需加载
+  }, {
+    path: '/home/articles', // 文章列表完整的写法  也可以直接写articles
+    component: () => import('../views/articles') // 按需加载
   }]
 
 },
