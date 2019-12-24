@@ -41,13 +41,15 @@
             <span>共找到1000条内容</span>
         </el-row>
 <!-- ------------------------------------------------------------------------------ -->
-        <div class="article-item" >
+        <div class="article-item" v-for="item in list" :key='item.id.toString()'>
             <div class="left">
-                <img src="../../assets/img/404.png" alt="">
+                <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt="">
                 <div class="info">
-                    <span>标题</span>
-                    <el-tag class="tag" type="success">标签一</el-tag>
-                    <span class="date">2019-12-24 15:07:01</span>
+                    <span>{{item.title}}</span>
+
+                    <!-- 文章状态 0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除 -->
+                    <el-tag :type='item.status | filterType' class="tag">{{item.status | filterStatus }}</el-tag>
+                    <span class="date">{{item. pubdate}}</span>
                 </div>
             </div>
 <!-- ---------------------------------------------------------------------------- -->
@@ -68,12 +70,60 @@ export default {
         channel_id: null,
         dateRange: [] // 日期范围
       },
-      channels: [] // 接收频道数据
+      channels: [], // 接收频道数据
 
+      list: [], // 接收整个article-item数组
+
+      defaultImg: require('../../assets/img/404.png') // 动态获取图片
+    }
+  },
+
+  //   定义一个过滤器去处理文章状态信息
+  filters: {
+    filterStatus (value) {
+      switch (value) {
+        case 0:
+          return '草稿'
+        case 1:
+          return '待审核'
+        case 2:
+          return '已发表'
+        case 3:
+          return '审核失败'
+
+        default:
+          break
+      }
+    },
+
+    // 根据不同的status去给出相应的样式
+
+    filterType (value) {
+      switch (value) {
+        case 0:
+          return 'warning'
+        case 1:
+          return 'danger'
+        case 2:
+          return 'success'
+        case 3:
+          return 'info'
+
+        default:
+          break
+      }
     }
   },
   methods: {
 
+    //  获取文章的方法
+    getArtiales () {
+      this.$axios({
+        url: '/articles'
+      }).then(res => {
+        this.list = res.data.results
+      })
+    },
     // 获取文章频道的方法
     getChannels () {
       this.$axios({
@@ -84,6 +134,7 @@ export default {
     }
   },
   created () {
+    this.getArtiales() // 获取文章数据
     this.getChannels() // 获取频道数据
   }
 }
@@ -99,6 +150,7 @@ export default {
     .article-item {
         display: flex;
         justify-content: space-between;
+        margin-bottom: 20px;
         .left{
             display: flex;
             // flex-direction: column;
@@ -114,7 +166,10 @@ export default {
                 justify-content: space-around;
                 .tag{
                     text-align: center;
-                    width: 40%;
+                    width: 60px;
+                }
+                .date {
+                    font-size: 14px;
                 }
             }
         }
