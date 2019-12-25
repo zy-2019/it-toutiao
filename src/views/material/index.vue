@@ -133,7 +133,9 @@ export default {
     },
     getMaterial () {
       this.loading = true // 打开loading加载
+
       this.$axios({
+
         url: '/user/images', // 收藏和获取共用一个接口
         params: {
           page: this.page.currentPage, // 后端返回的当前页数

@@ -30,6 +30,9 @@ const routes = [{
   }, {
     path: '/home/articles', // 文章列表完整的写法  也可以直接写articles
     component: () => import('../views/articles') // 按需加载
+  }, {
+    path: '/home/publish', // 文章列表完整的写法  也可以直接写articles
+    component: () => import('../views/publish') // 按需加载
   }]
 
 },

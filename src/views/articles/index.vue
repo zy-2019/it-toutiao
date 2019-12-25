@@ -11,7 +11,7 @@
         <el-form style="padding-left:50px">
             <el-form-item label="文章状态:">
                 <!-- 放置一个单选组  文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除，不传为全部-->
-                <el-radio-group v-model="searchForm.status">
+                <el-radio-group v-model="searchForm.status" @change="changeCondition">
                     <el-radio :label="5">全部</el-radio>
                     <el-radio :label="0">草稿</el-radio>
                     <el-radio :label="1">待审核</el-radio>
@@ -24,21 +24,20 @@
             <el-form-item label="频道列表:">
 
                 <!-- el-option label是显示值 value是存储值 -->
-
                 <el-select placeholder="请选择频道" v-model="searchForm.channel_id" >
-                    <el-option v-for='item in channels' :key='item.id' :label="item.name" :value="item.id"></el-option>
+                    <el-option @change="changeCondition" v-for='item in channels' :key='item.id' :label="item.name" :value="item.id"></el-option>
                 </el-select>
             </el-form-item>
 <!-- ------------------------------------------------------------------------- -->
             <el-form-item label="时间选择:">
                 <!-- 日期选择器  日期范围 -->
-                <el-date-picker v-model="searchForm.dateRange"   type="daterange" ></el-date-picker>
+                <el-date-picker @change="changeCondition" value-format="yyyy-MM-dd"  v-model="searchForm.dateRange" type="daterange" ></el-date-picker>
             </el-form-item>
         </el-form>
 <!-- --------------------------------------------------------------------------- -->
         <!-- 主要文章显示页面 -->
         <el-row type="flex" class="head" align="middle">
-            <span>共找到1000条内容</span>
+            <span>共找到{{page.total}}条内容</span>
         </el-row>
 <!-- ------------------------------------------------------------------------------ -->
         <div class="article-item" v-for="item in list" :key='item.id.toString()'>
@@ -55,9 +54,22 @@
 <!-- ---------------------------------------------------------------------------- -->
             <div class="right">
                 <span><i class="el-icon-edit">修改</i></span>
-                <span><i class="el-icon-delete-solid">删除</i></span>
+                <span @click="delArticle(item.id)"><i class="el-icon-delete-solid">删除</i></span>
             </div>
         </div>
+<!-- ----------------------------------------------------------------------------- -->
+  <!-- 分页组件 -->
+        <el-row type="flex" justify="center" style="height:80px" align="middle">
+            <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="page.total"
+            :page-size="page.pageSize"
+            :current-page="page.currentPage"
+            @current-change='changePage'>
+          </el-pagination>
+        </el-row>
+<!-- ------------------------------------------------------------------------------ -->
     </el-card>
 </template>
 
@@ -65,16 +77,26 @@
 export default {
   data () {
     return {
-      searchForm: {
+
+      searchForm: { // 把表单里的三个查询条件封装在一个对象里面
         status: 5,
-        channel_id: null,
-        dateRange: [] // 日期范围
+
+        channel_id: null, // 文章所属频道id      ------------------------??????这块儿明天要听一下视频
+
+        dateRange: [] // 日期范围   需要看文档中的返回类型
       },
       channels: [], // 接收频道数据
 
-      list: [], // 接收整个article-item数组
+      list: [], // 接收整个article-item数组   渲染页面数据
 
-      defaultImg: require('../../assets/img/404.png') // 动态获取图片
+      defaultImg: require('../../assets/img/404.png'), // 动态获取图片定义的变量
+
+      // 分页组件的定义对象
+      page: {
+        total: 0,
+        pageSize: 10,
+        currentPage: 1
+      }
     }
   },
 
@@ -116,15 +138,73 @@ export default {
   },
   methods: {
 
-    //  获取文章的方法
-    getArtiales () {
-      this.$axios({
-        url: '/articles'
-      }).then(res => {
-        this.list = res.data.results
+    // ！！！！！！！！！条件或页码改变时都要重新获取当前页码数和每页数量！！！！！！！！！！！！！！！！！！
+
+    // 条件改变时 => 强制页码到第一页 => 收集参数  =>组合 =>查询
+
+    changeCondition () {
+      this.page.currentPage = 1
+
+      this.getchangeCondition() // 调用方法去刷新页面数据
+    },
+
+    // 页码改变时的方法 => 设置最新页码 => 收集原来的条件参数 => 组合 =>查询
+    changePage (newpage) {
+      this.page.currentPage = newpage
+
+      this.getchangeCondition()
+    },
+    // 改变条件进行筛选           第一种的方法
+    getchangeCondition () {
+      let params = {
+
+        page: this.page.currentPage, //   获取当前页码数
+
+        per_page: this.page.pageSize, //  获取每页数量
+
+        status: this.searchForm.status === 5 ? null : this.searchForm.status,
+
+        channel_id: this.searchForm.channel_id,
+
+        begin_pubdate: this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null,
+
+        end_pubdate: this.searchForm.dateRange.length > 1 ? this.searchForm.dateRange[1] : null
+      }
+
+      this.getArtiales(params) // 传参
+    },
+
+    // 删除文章的方法
+
+    delArticle (id) {
+      this.$confirm('您确定要删除吗').then(() => {
+        // 调用删除接口
+        this.$axios({
+          method: 'delete',
+          url: `/articles/${id.toString()}`
+        }).then((res) => {
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          })
+          this.getchangeCondition() // 重新请求页面数据
+        })
       })
     },
-    // 获取文章频道的方法
+
+    //  获取文章的方法
+    getArtiales (params) {
+      this.$axios({
+        url: '/articles',
+
+        params
+      }).then(res => {
+        this.list = res.data.results // 获取整个文章列表
+
+        this.page.total = res.data.total_count // 获取文章总数
+      })
+    },
+    // 获取所有文章频道的方法
     getChannels () {
       this.$axios({
         url: '/channels'
@@ -133,9 +213,11 @@ export default {
       })
     }
   },
+
   created () {
     this.getArtiales() // 获取文章数据
-    this.getChannels() // 获取频道数据
+
+    this.getChannels({ page: 1, per_page: 10 }) // 获取频道数据
   }
 }
 </script>
