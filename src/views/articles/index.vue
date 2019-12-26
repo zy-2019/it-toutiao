@@ -12,6 +12,7 @@
             <el-form-item label="文章状态:">
                 <!-- 放置一个单选组  文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除，不传为全部-->
                 <el-radio-group v-model="searchForm.status" @change="changeCondition">
+
                     <el-radio :label="5">全部</el-radio>
                     <el-radio :label="0">草稿</el-radio>
                     <el-radio :label="1">待审核</el-radio>
@@ -79,7 +80,7 @@ export default {
     return {
 
       searchForm: { // 把表单里的三个查询条件封装在一个对象里面
-        status: 5,
+        status: 5, // 默认选中全部
 
         channel_id: null, // 文章所属频道id      ------------------------??????这块儿明天要听一下视频
 
@@ -118,8 +119,7 @@ export default {
       }
     },
 
-    // 根据不同的status去给出相应的样式
-
+    // 这个过滤器是根据不同的status去给出相应的样式
     filterType (value) {
       switch (value) {
         case 0:
@@ -154,6 +154,7 @@ export default {
 
       this.getchangeCondition()
     },
+
     // 改变条件进行筛选           第一种的方法
     getchangeCondition () {
       let params = {
@@ -162,7 +163,7 @@ export default {
 
         per_page: this.page.pageSize, //  获取每页数量
 
-        status: this.searchForm.status === 5 ? null : this.searchForm.status,
+        status: this.searchForm.status === 5 ? null : this.searchForm.status, // 这里的5是前端自己定义的标识  如果等于5表示查全部 给个null 因为全部是不传的
 
         channel_id: this.searchForm.channel_id,
 

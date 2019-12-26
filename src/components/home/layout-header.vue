@@ -64,13 +64,14 @@ export default {
 
     .layout-header{
         height: 40px;
+        background-color: cornflowerblue;
         .left{
             font-size: 20px;
             span{
                 font-size: 15px;
                 margin-left: 5px;
                 color: #2c3e50;
-                background-color: yellow
+                background-color: yellow;
             }
         }
         .right{
