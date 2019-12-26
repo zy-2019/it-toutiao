@@ -40,8 +40,9 @@
             </el-form-item>
     <!-- ------------------------------------------------------------------------- -->
             <el-form-item>
-                <el-button type="primary" @click="publishArticles">发布文章</el-button>
-                <el-button>存入草稿</el-button>
+                <el-button type="primary" @click="publishArticles()">发布文章</el-button>
+                <!-- @click="publishArticles()  不传参会默认false -->
+                <el-button @click="publishArticles(true)">存入草稿</el-button>
             </el-form-item>
 
         </el-form>
@@ -89,16 +90,28 @@ export default {
       })
     },
 
-    // 手动校验表单方法
-    publishArticles () {
+    // 点击发表文章手动校验表单方法
+    publishArticles (draft) {
       this.$refs.publishForm.validate(isOK => {
         if (isOK) {
-          console.log('校验通过')
+          this.$axios({
+            url: '/articles',
+            method: 'post',
+            params: { draft }, // 查询参数
+            data: this.formData // 请求体参数
+          }).then(res => {
+            // 这里是根据elementUI来提示的
+            this.$message({
+              type: 'success',
+              message: '保存成功'
+            })
+            // 跳转到文章列表页
+            this.$router.push('/home/articles')
+          })
         }
       })
     }
   },
-
   created () {
     this.getChannels() // 加载频道数据的方法
     // this.publishArticles()
