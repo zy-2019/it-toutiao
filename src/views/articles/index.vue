@@ -54,7 +54,7 @@
             </div>
 <!-- ---------------------------------------------------------------------------- -->
             <div class="right">
-                <span><i class="el-icon-edit">修改</i></span>
+                <span><i class="el-icon-edit" @click="modifyArticle(item.id)">修改</i></span>
                 <span @click="delArticle(item.id)"><i class="el-icon-delete-solid">删除</i></span>
             </div>
         </div>
@@ -138,10 +138,16 @@ export default {
   },
   methods: {
 
+    // 点击修改文章的方法
+
+    // 当两个不同的路由的地址 对应同一个组件的时候,如果相互切换,组件实例并不会销毁,也就是不会执行钩子函数的一系列操作
+
+    modifyArticle (id) {
+      this.$router.push(`/home/publish/${id.toString()}`)
+    },
+
     // ！！！！！！！！！条件或页码改变时都要重新获取当前页码数和每页数量！！！！！！！！！！！！！！！！！！
-
     // 条件改变时 => 强制页码到第一页 => 收集参数  =>组合 =>查询
-
     changeCondition () {
       this.page.currentPage = 1
 

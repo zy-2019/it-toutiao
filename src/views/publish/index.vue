@@ -81,6 +81,26 @@ export default {
       }
     }
   },
+  watch: { // 监听$route   vue.js文档里查看
+    $route: function (to, from) {
+      if (to.params.articleId) {
+        //   是修改页面
+      } else {
+        // 是发布页面的话  就要清空内容  把上面定义的拉下来
+        this.formData = {
+          title: '', // 文章标题
+          content: '', // 文章内容
+          // 文章封面类型 -1:自动，0-无图，1-1张，3-3张
+          cover: {
+            type: 0, // 默认先给个0
+
+            images: [] // 放制封面地址的数组
+          },
+          channel_id: null
+        }
+      }
+    }
+  },
   methods: {
     getChannels () {
       this.$axios({
@@ -90,7 +110,7 @@ export default {
       })
     },
 
-    // 点击发表文章手动校验表单方法
+    // 点击手动校验表单方法          已发表或草稿是一个接口        成功后发布到文章或草稿
     publishArticles (draft) {
       this.$refs.publishForm.validate(isOK => {
         if (isOK) {
@@ -110,11 +130,22 @@ export default {
           })
         }
       })
+    },
+    // 通过id查询文章数据的方法
+    getArticleId (articleId) {
+      this.$axios({
+        url: `/articles/${articleId}`
+      }).then(res => {
+        this.formData = res.data
+      })
     }
   },
   created () {
     this.getChannels() // 加载频道数据的方法
-    // this.publishArticles()
+
+    let { articleId } = this.$route.params // 获取动态路由参数
+
+    articleId && this.getArticleId(articleId) // 先判断有没有ArtialeId    用的是且方法  在传入参数
   }
 
 }

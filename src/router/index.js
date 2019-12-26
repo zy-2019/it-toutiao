@@ -31,7 +31,10 @@ const routes = [{
     path: '/home/articles', // 文章列表完整的写法  也可以直接写articles
     component: () => import('../views/articles') // 按需加载
   }, {
-    path: '/home/publish', // 文章列表完整的写法  也可以直接写articles
+    path: '/home/publish', // 发布文章完整的写法  也可以直接写articles
+    component: () => import('../views/publish') // 按需加载
+  }, {
+    path: '/home/publish/:articleId', // 修改文章完整的写法  也可以直接写articles   修改文章要带id参数过去
     component: () => import('../views/publish') // 按需加载
   }]
 
