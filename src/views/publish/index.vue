@@ -110,15 +110,24 @@ export default {
       })
     },
 
-    // 点击手动校验表单方法          已发表或草稿是一个接口        成功后发布到文章或草稿
+    // 点击手动校验表单方法   ===>  成功后发布到文章或草稿  ===>通过articleId判断是发布还是修改页面
     publishArticles (draft) {
       this.$refs.publishForm.validate(isOK => {
         if (isOK) {
+          // 要先判断是发布还是修改页面
+
+          let { articleId } = this.$route.params //   获取动态路由参数
+
           this.$axios({
-            url: '/articles',
-            method: 'post',
+
+            url: articleId ? `/articles/${articleId}` : '/articles',
+
+            method: articleId ? 'put' : 'post',
+
             params: { draft }, // 查询参数
+
             data: this.formData // 请求体参数
+
           }).then(res => {
             // 这里是根据elementUI来提示的
             this.$message({
@@ -131,6 +140,7 @@ export default {
         }
       })
     },
+
     // 通过id查询文章数据的方法
     getArticleId (articleId) {
       this.$axios({
@@ -145,7 +155,7 @@ export default {
 
     let { articleId } = this.$route.params // 获取动态路由参数
 
-    articleId && this.getArticleId(articleId) // 先判断有没有ArtialeId    用的是且方法  在传入参数
+    articleId && this.getArticleId(articleId) // 先判断有没有ArtialeId   用的是且方法  如果有直接获取文章数据 在传入参数
   }
 
 }
