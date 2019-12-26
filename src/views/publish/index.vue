@@ -1,5 +1,5 @@
 <template>
-    <el-card>
+    <el-card v-loading='loading'>
 
         <!-- 面包屑组件>>>>>>>>>>>>>>>>显示当前页面的路径，快速返回之前的任意页面 -->
         <bread-crumb slot="header">
@@ -17,13 +17,13 @@
     <!-- --------------------------------------------------------------------- -->
             <el-form-item label="内容" prop="content" >
 
-                <el-input v-model="formData.content" type="textarea" :rows="4">
+                <quill-editor v-model="formData.content" style="height:300px">
 
-                </el-input>
+                </quill-editor>
 
             </el-form-item>
     <!-- ---------------------------------------------------------------------- -->
-            <el-form-item label="封面" prop="cover">
+            <el-form-item label="封面" prop="cover" style="margin-top:120px">
                 <el-radio-group v-model="formData.cover.type">
                     <el-radio :label="1">单图</el-radio>
                     <el-radio :label="3">三图</el-radio>
@@ -54,6 +54,7 @@
 export default {
   data () {
     return {
+      loading: false,
       channels: [], // 定义接收频道数据
 
       // 表单校验和校验规则绑定  在每一项里边需要v-model双向进行绑定
@@ -143,10 +144,12 @@ export default {
 
     // 通过id查询文章数据的方法
     getArticleId (articleId) {
+      this.loading = true
       this.$axios({
         url: `/articles/${articleId}`
       }).then(res => {
-        this.formData = res.data
+        this.loading = false
+        this.formData = res.data // 将数据赋值给formData
       })
     }
   },
@@ -157,7 +160,6 @@ export default {
 
     articleId && this.getArticleId(articleId) // 先判断有没有ArtialeId   用的是且方法  如果有直接获取文章数据 在传入参数
   }
-
 }
 </script>
 
