@@ -30,6 +30,7 @@
                     <el-radio :label="0">无图</el-radio>
                     <el-radio :label="-1">自动</el-radio>
                 </el-radio-group>
+                {{formData.cover}}
             </el-form-item>
     <!-- ------------------------------------------------------------------------- -->
             <el-form-item label="频道" prop="channel_id">
@@ -82,7 +83,8 @@ export default {
       }
     }
   },
-  watch: { // 监听$route   vue.js文档里查看
+  watch: {
+    // 监听$route来判断是修改页面还是发布页面   vue.js文档里查看
     $route: function (to, from) {
       if (to.params.articleId) {
         //   是修改页面
@@ -95,10 +97,22 @@ export default {
           cover: {
             type: 0, // 默认先给个0
 
-            images: [] // 放制封面地址的数组
+            images: [] // 放封面地址的数组
           },
           channel_id: null
         }
+      }
+    },
+
+    // 监听封面类型的改变
+
+    'formData.cover.type': function () {
+      if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+        this.formData.cover.images = [] // 无图或者是自动
+      } else if (this.formData.cover.type === 1) {
+        this.formData.cover.images = [''] // 单图
+      } else if (this.formData.cover.type === 3) {
+        this.formData.cover.images = ['', '', ''] // 三图
       }
     }
   },
