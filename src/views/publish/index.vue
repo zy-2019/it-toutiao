@@ -30,8 +30,12 @@
                     <el-radio :label="0">无图</el-radio>
                     <el-radio :label="-1">自动</el-radio>
                 </el-radio-group>
-                {{formData.cover}}
+                <!-- {{formData.cover}} -->
             </el-form-item>
+
+            <cover-image :list='formData.cover.images'>
+                <!-- 这里是一个封面组件 -->
+            </cover-image>
     <!-- ------------------------------------------------------------------------- -->
             <el-form-item label="频道" prop="channel_id">
                 <el-select v-model="formData.channel_id">
@@ -105,7 +109,6 @@ export default {
     },
 
     // 监听封面类型的改变
-
     'formData.cover.type': function () {
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
         this.formData.cover.images = [] // 无图或者是自动
