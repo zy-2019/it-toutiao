@@ -147,6 +147,7 @@ export default {
     },
 
     // ！！！！！！！！！条件或页码改变时都要重新获取当前页码数和每页数量！！！！！！！！！！！！！！！！！！
+
     // 条件改变时 => 强制页码到第一页 => 收集参数  =>组合 =>查询
     changeCondition () {
       this.page.currentPage = 1
@@ -161,9 +162,10 @@ export default {
       this.getchangeCondition()
     },
 
-    // 改变条件进行筛选           第一种的方法
+    // 改变条件进行筛选  组装条件         第一种的方法是监听每个组件的change事件
+
     getchangeCondition () {
-      let params = {
+      let params = { // 定义请求参数对象
 
         page: this.page.currentPage, //   获取当前页码数
 
@@ -173,12 +175,12 @@ export default {
 
         channel_id: this.searchForm.channel_id,
 
-        begin_pubdate: this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null,
+        begin_pubdate: this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null, // 开始时间
 
-        end_pubdate: this.searchForm.dateRange.length > 1 ? this.searchForm.dateRange[1] : null
+        end_pubdate: this.searchForm.dateRange.length > 1 ? this.searchForm.dateRange[1] : null // 结束时间
       }
 
-      this.getArtiales(params) // 传参
+      this.getArtiales(params) // 第二次调用传参
     },
 
     // 删除文章的方法

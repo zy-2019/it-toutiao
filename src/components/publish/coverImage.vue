@@ -3,8 +3,10 @@
       <div @click="openDialog" class="cover-image-item" v-for="(item,index) in list" :key="index">
           <img :src="item ? item : userImg" alt="">
       </div>
-      <el-dialog :visible="dialogVisible" title="请选择图片" @close='closeDialog'>
-        <!-- 这里要放一个另外的组件 -->
+      <el-dialog :visible="dialogVisible" @close='closeDialog'>
+
+        <!-- 这里要封装一个另外的组件 并上传图片   -->
+        <select-img></select-img>
 
       </el-dialog>
   </div>
