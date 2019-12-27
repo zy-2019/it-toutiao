@@ -36,6 +36,9 @@ const routes = [{
   }, {
     path: '/home/publish/:articleId', // 修改文章完整的写法  也可以直接写articles   修改文章要带id参数过去
     component: () => import('../views/publish') // 按需加载
+  }, {
+    path: '/home/userinfo', // 账户信息的path
+    component: () => import('../views/user-info') // 按需加载
   }]
 
 },
