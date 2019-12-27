@@ -8,7 +8,7 @@
 
         <!-- 上传图片组件 -->
         <el-row type="flex" justify="end">
-          <el-upload action="" :http-request="uplaodImg" :show-file-list="false">
+          <el-upload action="" :http-request="uploadImg" :show-file-list="false">
             <el-button type="primary" size='small'>点击上传</el-button>
           </el-upload>
         </el-row>
@@ -99,11 +99,11 @@ export default {
     },
 
     // 上传图片的方法
-    uplaodImg (params) {
+    uploadImg (params) {
       console.log(params) // 看下传过去的参数是什么?????????????????????????
 
       // alert(1)
-      this.loading = true //  上传是打开 loading加载
+      this.loading = true //  上传时打开 loading加载
 
       let data = new FormData()
 

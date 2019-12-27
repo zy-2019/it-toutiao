@@ -1,12 +1,13 @@
 <template>
   <div class="cov-img">
-      <div @click="openDialog" class="cover-image-item" v-for="(item,index) in list" :key="index">
+      <div @click="openDialog(index)" class="cover-image-item" v-for="(item,index) in list" :key="index">
           <img :src="item ? item : userImg" alt="">
       </div>
       <el-dialog :visible="dialogVisible" @close='closeDialog'>
 
         <!-- 这里要封装一个另外的组件 并上传图片   -->
-        <select-img></select-img>
+
+        <select-img @selectOneImg='receiveImg'></select-img>
 
       </el-dialog>
   </div>
@@ -18,12 +19,21 @@ export default {
   data () {
     return {
       userImg: require('../../assets/img/pic_bg.png'),
-      dialogVisible: false
+      dialogVisible: false,
+      selectIndex: -1
     }
   },
   methods: {
-    openDialog () { // 打开弹窗
+
+    // 接收selectImg的传参   因为data显示的是list的数据  所以要把index也传过去  打开弹窗是可以获取到index的
+    receiveImg (url) {
+      this.$emit('selectTwoImg', url, this.selectIndex) // 携带index去传给父==>
+
+      this.closeDialog() // 拿到索引后关闭弹窗  不需要自己手动去点了
+    },
+    openDialog (index) { // 打开弹窗
       this.dialogVisible = true
+      this.selectIndex = index
     },
     closeDialog () { // 关闭弹窗
       this.dialogVisible = false

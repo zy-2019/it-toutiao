@@ -1,14 +1,13 @@
 <template>
-    <el-tabs v-model="activeName">
+    <el-tabs v-model="activeName" v-loading='loading'>
         <!-- ---------------------------------------------------------------- -->
         <el-tab-pane label="素材库" name="material">
             <div class="select-image-list">
                 <!-- 循环生成el-card -->
                 <el-card class="userImgCard" v-for="item in list" :key="item.id">
-
                         <!-- URL是图片地址 -->
-
-                     <img :src="item.url" alt="">
+                        <!-- 携带地址传参 -->
+                     <img @click="changeImg(item.url)" :src="item.url" alt="">
 
                 </el-card>
             </div>
@@ -26,17 +25,24 @@
         </el-row>
         </el-tab-pane>
 <!-- ------------------------------------------------------------------------------- -->
-        <el-tab-pane label="点击上传" name="upLoad">
-            <span class="el-icon-plus"></span>
+
+        <!-- 上传用户头像 -->
+
+        <el-tab-pane label="点击上传" name="upLoad"  >
+            <el-upload class="uploadImg" :http-request="uploadImg"  action="" :show-file-list="false">
+                <span class="el-icon-plus"></span>
+            </el-upload>
         </el-tab-pane>
     </el-tabs>
 
 </template>
 
 <script>
+
 export default {
   data () {
     return {
+      loading: false,
       list: [], // 接收素材管理的数据
       activeName: 'material', // 默认选中的是素材库
       page: {
@@ -47,6 +53,34 @@ export default {
     }
   },
   methods: {
+
+    //   点击上传图片事件
+    uploadImg (params) {
+      this.loading = true // 打开loading
+      let data = new FormData() // 定义formdata收集数据
+
+      data.append('image', params.file) // 加入请求参数
+
+      this.$axios({
+        url: '/user/images',
+        method: 'post',
+        data
+      }).then(res => {
+        this.loading = false
+        this.$emit('selectOneImg', res.data.url)
+
+        // 添加成功提示一把
+
+        this.$message({
+          message: '恭喜你，添加成功',
+          type: 'success'
+        })
+      })
+    },
+    //   点击图片时触发
+    changeImg (url) {
+      this.$emit('selectOneImg', url) // 通过自定义事件第一次子传父
+    },
 
     // 页码切换事件
 
@@ -95,6 +129,15 @@ export default {
                 width: 100%;
                 height: 100%;
             }
+        }
+    }
+    .uploadImg{
+        display: flex;
+        justify-content: center;
+        span{
+            font-size: 50px;
+            padding: 50px;
+            border: 1px dashed #ccc;
         }
     }
 </style>

@@ -33,7 +33,7 @@
                 <!-- {{formData.cover}} -->
             </el-form-item>
 
-            <cover-image :list='formData.cover.images'>
+            <cover-image @selectTwoImg='receiveImg' :list='formData.cover.images'>
 
                 <!-- 这里是一个封面组件    两次子传父      -->
 
@@ -116,6 +116,12 @@ export default {
     // }
   },
   methods: {
+
+    receiveImg (url, index) { // 接收子组件传递的参数
+      this.formData.cover.images = this.formData.cover.images.map((item, i) => i === index ? url : item)
+
+      // 通过三元表达式来判断  如果两者相等  就替换   不相等就直接返回原来的数据
+    },
 
     // 封面类型改变触发的事件
     changeType () {
