@@ -48,7 +48,7 @@ export default {
     checkMenu (command) {
     //   this.$message('触发了' + command)
       if (command === 'info') {
-
+        this.$router.push('/home/userinfo') // 跳转账户信息页
       } else if (command === 'git') {
         window.location.href = 'http://www.baidu.com'
       } else {
