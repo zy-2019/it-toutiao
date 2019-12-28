@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -35,16 +36,28 @@ export default {
   },
   created () {
     // let token = localStorage.getItem('user-token')  //已经统一处理请求在此处不需要定义了
-    this.$axios({
-      url: '/user/profile'
-      // headers: {
-      //   Authorization: `Bearer ${token}`
-      // }
-    }).then(res => {
-      this.userInfo = res.data
+
+    this.getUserInfo() // 相同的事件封装在methods里面了
+    // 开启监听事件
+    eventBus.$on('updateUserInfo', () => {
+      this.getUserInfo() // 更新用户信息
     })
   },
   methods: {
+
+    // 更新用户信息的function
+
+    getUserInfo () {
+      this.$axios({
+        url: '/user/profile'
+      // headers: {
+      //   Authorization: `Bearer ${token}`
+      // }
+      }).then(res => {
+        this.userInfo = res.data
+      })
+    },
+
     checkMenu (command) {
     //   this.$message('触发了' + command)
       if (command === 'info') {

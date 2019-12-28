@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -79,6 +80,8 @@ export default {
           type: 'success',
           message: '用户头像修改成功'
         })
+        // 开启触发监听事件 认为保存成功=>通知header组件  同步头像更新
+        eventBus.$emit('updateUserInfo')
       })
     },
 
@@ -98,6 +101,9 @@ export default {
               type: 'success',
               message: '保存成功'
             })
+
+            // 开启触发监听事件 认为保存成功=>通知header组件  同步头像更新
+            eventBus.$emit('updateUserInfo')
           })
         }
       })
