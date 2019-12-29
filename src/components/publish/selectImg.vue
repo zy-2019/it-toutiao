@@ -1,6 +1,6 @@
 <template>
     <el-tabs v-model="activeName" v-loading='loading'>
-        <!-- ---------------------------------------------------------------- -->
+<!-- ---------------------------------------------------------------- -->
         <el-tab-pane label="素材库" name="material">
             <div class="select-image-list">
                 <!-- 循环生成el-card -->
@@ -11,7 +11,7 @@
 
                 </el-card>
             </div>
-        <!-- --------------------------------------------------------------------- -->
+<!-- --------------------------------------------------------------------- -->
         <!-- 放一个分页组件 -->
         <el-row type="flex" justify="center">
             <el-pagination
@@ -79,7 +79,7 @@ export default {
     },
     //   点击图片时触发
     changeImg (url) {
-      this.$emit('selectOneImg', url) // 通过自定义事件第一次子传父
+      this.$emit('selectOneImg', url) //                   通过自定义事件第一次子传父
     },
 
     // 页码切换事件

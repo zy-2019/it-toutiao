@@ -3,7 +3,9 @@
         <el-row class="layout-header" type="flex" align="middle">
 
             <el-col :span="12" class="left">
-                <i class="el-icon-s-fold" ></i>
+
+                <i @click="changeIcon" :class="{'el-icon-s-unfold': fold,'el-icon-s-fold':!fold}" ></i>
+
                 <span>内蒙古<strong style="color:red; font-size:25px"><em>浪滔滔</em></strong>教育科技股份有限公司</span>
             </el-col>
 
@@ -30,6 +32,7 @@ import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
+      fold: false, // 默认左侧导航栏是展开的
       userInfo: {}, // 定义一个用户对象用于接收data传来的数据
       defaultImg: require('../../assets/img/header.png')
     }
@@ -45,6 +48,11 @@ export default {
   },
   methods: {
 
+    // 点击icon展开或折叠左侧导航栏
+    changeIcon () {
+      this.fold = !this.fold // 取反不是展开就是折叠
+      eventBus.$emit('changeFold') // 触发一个事件
+    },
     // 更新用户信息的function
 
     getUserInfo () {

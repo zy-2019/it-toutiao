@@ -33,9 +33,8 @@
                 <!-- {{formData.cover}} -->
             </el-form-item>
 
+              <!-- 这是一个封面组件     要两次子传父的终点      -->
             <cover-image @selectTwoImg='receiveImg' :list='formData.cover.images'>
-
-                <!-- 这里是一个封面组件    两次子传父      -->
 
             </cover-image>
     <!-- ------------------------------------------------------------------------- -->
