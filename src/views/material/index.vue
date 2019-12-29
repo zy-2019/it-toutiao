@@ -21,8 +21,8 @@
                 <!-- {{list}} 根据除传回的id进行操作 -->
                 <div class="img-list">
                     <!-- v-for 进行循环 -->
-                    <el-card class="img-card" v-for='item in list' :key="item.id">
-                        <img :src="item.url" alt="">
+                    <el-card class="img-card" v-for='(item,index) in list' :key="index">
+                        <img @click="openDialog(index)" :src="item.url" alt="">
                         <el-row class="icon" type="flex" align="middle" justify="space-around">
                             <!-- 根据当前是否收藏的状态来决定是否给字体颜色 -->
                             <i class="el-icon-star-on" @click="coolectOrcancel(item)" :style="{ color : item.is_collected ? 'red' : '#000'}"></i>
@@ -35,8 +35,8 @@
             <el-tab-pane label="收藏图片" name="collect">
                 <div class="img-list">
                     <!-- v-for 进行循环 -->
-                    <el-card class="img-card" v-for='item in list' :key="item.id">
-                        <img :src="item.url" alt="">
+                    <el-card class="img-card" v-for='(item,index) in list' :key='index'>
+                        <img @click="openDialog(index)"  :src="item.url" alt="">
                     </el-card>
                 </div>
             </el-tab-pane>
@@ -50,6 +50,17 @@
   :total="page.total" :current-page="page.currentPage" :page-size="page.pageSize" @current-change='changePage'>
         </el-pagination>
         </el-row>
+  <!-- ------------------------------------------------------------------------- -->
+      <!-- 点击图片显示弹层 -->
+      <!-- 放在最下面直接弹出 -->
+
+        <el-dialog @opened='openCarousel' :visible="dialogVisible" @close='dialogVisible = false'>
+            <el-carousel ref="myCarousel" indicator-position="outside">
+              <el-carousel-item v-for="(item,index) in list" :key="index">
+                <img style="width:100%;height:100%" :src="item.url" alt="">
+              </el-carousel-item>
+            </el-carousel>
+        </el-dialog>
     </el-card>
 </template>
 
@@ -57,6 +68,7 @@
 export default {
   data () {
     return {
+      dialogVisible: false,
       activeName: 'all', // 当前选中的标签
       list: [], // 接收素材数据
 
@@ -67,10 +79,22 @@ export default {
         total: 0, // 总页数是动态获取到的   要从get方法参数里面获取总页数的  别傻等啦？？？？
         pageSize: 8, // 每页显示条目个数
         currentPage: 1 // 默认页码是1
-      }
+      },
+      CarouselIndex: -1
     }
   },
   methods: {
+
+    // 获取走马灯的实例
+    openCarousel () {
+      this.$refs.myCarousel.setActiveItem(this.CarouselIndex)
+    },
+    // 点击打开弹层的function
+    openDialog (index) { // 要把图片索引拿到
+      this.dialogVisible = true // 异步更新没有办法在弹层中立刻设置索引
+
+      this.CarouselIndex = index // 先把索引存一下
+    },
 
     // 点击取消收藏或收藏图片
     coolectOrcancel (item) {

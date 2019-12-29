@@ -126,6 +126,7 @@ export default {
     // 封面类型改变触发的事件
     changeType () {
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+        // console.log(1)
         this.formData.cover.images = [] // 无图或者是自动
       } else if (this.formData.cover.type === 1) {
         this.formData.cover.images = [''] // 单图
@@ -134,6 +135,7 @@ export default {
       }
     },
 
+    // 获取频道列表方法
     getChannels () {
       this.$axios({
         url: '/channels'

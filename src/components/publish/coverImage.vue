@@ -24,7 +24,6 @@ export default {
     }
   },
   methods: {
-
     // 接收selectImg的传参   因为data显示的是list的数据  所以要把index也传过去  打开弹窗是可以获取到index的
     receiveImg (url) {
       this.$emit('selectTwoImg', url, this.selectIndex) // 携带index去传给父==>
