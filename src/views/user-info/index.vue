@@ -53,7 +53,7 @@ export default {
       defaultImg: require('../../assets/img/header.png'),
       // 编辑用户信息   自动校验表单
       rules: {
-        name: [{ required: true, message: '请输入正确的用户名' }, { min: 3, max: 5, message: '用户名长度在3到5字符' }],
+        name: [{ required: true, message: '请输入正确的用户名' }, { min: 3, max: 8, message: '用户名长度在3到8字符' }],
         intro: [{ required: true, message: '请输入简介' }],
         email: [{ required: true, message: '请输入邮箱号' }, { pattern: /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/, message: '邮箱号格式错误' }]
       }

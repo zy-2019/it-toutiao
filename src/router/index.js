@@ -11,6 +11,10 @@ import HomeTwo from '../views/home/home.vue'
 Vue.use(VueRouter)
 
 const routes = [{
+  path: '*',
+  component: () => import('../views/404')
+},
+{
   path: '/',
   redirect: '/login'
 },
@@ -39,6 +43,9 @@ const routes = [{
   }, {
     path: '/home/userinfo', // 账户信息的path
     component: () => import('../views/user-info') // 按需加载
+  }, {
+    path: '/home/picture', // 粉丝管理中的图文数据的path
+    component: () => import('../views/pictureData') // 按需加载
   }]
 
 },
