@@ -75,6 +75,8 @@
 </template>
 
 <script>
+// 引入模块儿
+import { getArticles, getChannels } from '../../action/articles'
 export default {
   data () {
     return {
@@ -201,30 +203,23 @@ export default {
       })
     },
 
-    //  获取文章的方法
-    getArtiales (params) {
-      this.$axios({
-        url: '/articles',
+    //  获取文章的方法                     试验一把异步变同步  还有请求模块分离
+    async getArticles (params) {
+      let res = await getArticles() // 调用获取文章频道
 
-        params
-      }).then(res => {
-        this.list = res.data.results // 获取整个文章列表
+      this.list = res.data.results // 获取整个文章列表
 
-        this.page.total = res.data.total_count // 获取文章总数
-      })
+      this.page.total = res.data.total_count // 获取文章总数
     },
     // 获取所有文章频道的方法
-    getChannels () {
-      this.$axios({
-        url: '/channels'
-      }).then(res => {
-        this.channels = res.data.channels
-      })
+    async getChannels () {
+      let res = await getChannels()
+      this.channels = res.data.channels
     }
   },
 
   created () {
-    this.getArtiales() // 获取文章数据
+    this.getArticles() // 获取文章数据
 
     this.getChannels({ page: 1, per_page: 10 }) // 获取频道数据
   }

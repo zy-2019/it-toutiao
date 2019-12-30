@@ -124,9 +124,6 @@ export default {
 
     // 上传图片的方法
     uploadImg (params) {
-      console.log(params) // 看下传过去的参数是什么?????????????????????????
-
-      // alert(1)
       this.loading = true //  上传时打开 loading加载
 
       let data = new FormData()
@@ -169,8 +166,6 @@ export default {
           collect: this.activeName === 'collect' // 这里传false是获取所有的数据 传true是获取收藏的数据  如果等于collect那么就是true
         }
       }).then(res => {
-        console.log(res)
-
         this.list = res.data.results // 获取所有的图片数据  这儿有可能是全部有可能是收藏
 
         this.page.total = res.data.total_count // 从后台获取到动态总数信息

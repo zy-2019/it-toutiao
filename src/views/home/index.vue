@@ -15,7 +15,7 @@
             <el-main>
                 <!-- 中间主要页面区域 -->
                 <!-- 二级路由容器 -->
-                  <router-view></router-view>
+                <router-view></router-view>
             </el-main>
         </el-container>
 <!-- --------------------------------------------------------------- -->

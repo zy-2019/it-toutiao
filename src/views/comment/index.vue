@@ -13,7 +13,7 @@
                 <template slot-scope='obj'>
 
                      <!-- 需要根据状态来判断是要关闭还是打开 -->
-                <el-button size="small" type="text">修改</el-button>
+                <el-button size="small" @click="changeComment" type="text">修改</el-button>
                 <el-button @click="changeCommentState(obj.row)" size="small" type="text">{{obj.row.comment_status ? '关闭' : '打开'}}评论</el-button>
 
                 </template>
@@ -55,6 +55,11 @@ export default {
       this.page.currentPage = newPage // 把最新页码赋值给当前页码
 
       this.getComment() // 刷新页面数据
+    },
+
+    // 点击修改评论的方法
+    changeComment () {
+      confirm('正在开发中，请耐心等待')
     },
     getComment () {
       this.loading = true // 打开loading加载

@@ -19,7 +19,7 @@
         </el-form-item>
 <!-- ---------------------------------------------------------------------- -->
         <el-form-item prop="check">
-          <el-checkbox v-model="loginForm.check">不选中不能进行下一步啊</el-checkbox>
+          <el-checkbox v-model="loginForm.check">要考虑清楚再选哦</el-checkbox>
         </el-form-item>
 <!-- ---------------------------------------------------------------------- -->
         <el-form-item>
@@ -52,7 +52,7 @@ export default {
           if (value) {
             callback()
           } else {
-            callback(new Error('必须要选中哦'))
+            callback(new Error('就是这么无赖,必须要选中'))
           }
         } }]
       }
